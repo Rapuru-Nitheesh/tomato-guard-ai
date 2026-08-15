@@ -1,3 +1,8 @@
+import os
+
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["TF_NUM_INTRAOP_THREADS"] = "1"
+os.environ["TF_NUM_INTEROP_THREADS"] = "1"
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
@@ -263,10 +268,10 @@ def predict():
         # Predict
         # ----------------------------------------------------
 
-        predictions = MODEL.predict(
+        predictions = MODEL(
             image_array,
-            verbose=0
-        )[0]
+            training=False
+        ).numpy()[0]
 
 
         # ----------------------------------------------------
@@ -436,6 +441,6 @@ if __name__ == "__main__":
 
         port=5000,
 
-        debug=True
+        debug=False
 
     )
