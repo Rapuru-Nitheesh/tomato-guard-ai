@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tomato Guard AI — Tomato Leaf Diagnostics</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar">
+        <div class="brand">
+            <span class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 40 40" width="26" height="26">
+                    <path d="M20 8c-1.5-3-4-5-7-5.5" stroke="#4C9A5A" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+                    <circle cx="20" cy="23" r="13.5" fill="#D6432B"/>
+                    <path d="M20 10.5c-3.6 0-6 1.6-7.4 3" stroke="#B8331E" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.5"/>
+                </svg>
+            </span>
+            <span class="brand-text">Tomato Guard <em>AI</em></span>
+        </div>
+        <div class="nav-meta">
+            <span class="nav-dot" aria-hidden="true"></span>
+            Model scope: <strong>Tomato leaves only</strong>
+        </div>
+    </nav>
+
+
+    <!-- ================= HERO ================= -->
+    <header class="hero">
+        <div class="hero-grid">
+
+            <div class="hero-copy">
+                <div class="eyebrow">Single-species classifier · 10 classes</div>
+
+                <h1>
+                    Read a tomato leaf
+                    <span class="italic">before it reads you.</span>
+                </h1>
+
+                <p>
+                    Upload a photo of a tomato leaf and a MobileNetV2 model
+                    trained only on tomato foliage returns a preliminary
+                    read on what it's seeing — healthy tissue, or one of
+                    nine common tomato conditions.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="#diagnose" class="btn-primary">Diagnose a leaf ↓</a>
+                    <a href="#scope" class="btn-ghost">Model scope &amp; limits</a>
+                </div>
+
+                <dl class="hero-stats">
+                    <div>
+                        <dt>Classes recognized</dt>
+                        <dd>10</dd>
+                    </div>
+                    <div>
+                        <dt>Trained on</dt>
+                        <dd>Tomato leaves</dd>
+                    </div>
+                    <div>
+                        <dt>Architecture</dt>
+                        <dd>MobileNetV2</dd>
+                    </div>
+                </dl>
+            </div>
+
+            <div class="hero-visual" aria-hidden="true">
+                <svg viewBox="0 0 360 420" class="leaf-scan-svg">
+                    <ellipse cx="180" cy="380" rx="140" ry="14" fill="#14261A" opacity="0.06"/>
+                    <path class="leaf-vein leaf-vein-stem" d="M180 60 C176 140 176 260 180 360"/>
+                    <path class="leaf-blade" d="M180 60
+                        C 110 90, 55 150, 45 220
+                        C 90 210, 140 195, 180 220
+                        C 220 195, 270 210, 315 220
+                        C 305 150, 250 90, 180 60 Z"/>
+                    <path class="leaf-vein" d="M180 110 C140 130 110 160 95 190"/>
+                    <path class="leaf-vein" d="M180 110 C220 130 250 160 265 190"/>
+                    <path class="leaf-vein" d="M180 160 C150 175 128 195 118 210"/>
+                    <path class="leaf-vein" d="M180 160 C210 175 232 195 242 210"/>
+                    <g class="spot-group">
+                        <circle class="spot" cx="130" cy="175" r="4.5"/>
+                        <circle class="spot" cx="150" cy="200" r="3"/>
+                        <circle class="spot" cx="222" cy="185" r="4"/>
+                        <circle class="spot" cx="205" cy="150" r="2.5"/>
+                    </g>
+                    <rect class="scan-line" x="30" y="60" width="300" height="3" rx="1.5"/>
+                    <rect class="scan-frame" x="30" y="55" width="300" height="180" rx="10" fill="none"/>
+                </svg>
+                <div class="hero-visual-caption">Live scan preview</div>
+            </div>
+
+        </div>
+    </header>
+
+
+    <!-- ================= SCOPE ================= -->
+    <section class="scope-section" id="scope">
+        <div class="scope-panel">
+
+            <div class="scope-head">
+                <span class="eyebrow eyebrow-light">Model scope</span>
+                <h2>Built for one crop. On purpose.</h2>
+                <p>Every image in the training set was a tomato leaf. That narrow focus is what makes the readings below reliable — and why the model should stop at tomato's front door.</p>
+            </div>
+
+            <div class="scope-columns">
+                <div class="scope-col scope-col-yes">
+                    <div class="scope-col-icon">🍅</div>
+                    <h3>Reads accurately</h3>
+                    <p>Tomato leaves — healthy, diseased, or pest-damaged. Ten trained classes, listed below.</p>
+                </div>
+                <div class="scope-col scope-col-no">
+                    <div class="scope-col-icon">✕</div>
+                    <h3>Will not diagnose</h3>
+                    <p>Potato, pepper, or any other plant. The model will still return an answer — it just won't be a meaningful one.</p>
+                </div>
+            </div>
+
+            <div class="scope-note">
+                <strong>Why this matters:</strong> a classifier trained only on tomato leaves has never seen a healthy potato leaf, so it can't tell "not tomato" from "diseased tomato." Feeding it other plants produces a confident-looking, unreliable guess.
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================= ABOUT SYSTEM ================= -->
+    <section class="about-section" id="about">
+
+        <div class="section-heading">
+            <span class="eyebrow">About the system</span>
+            <h2>AI-powered tomato leaf screening</h2>
+            <p>Helping tomato growers and harvesters identify possible leaf conditions earlier.</p>
+        </div>
+
+        <div class="about-content">
+
+            <div class="about-main">
+                <div class="about-icon" aria-hidden="true">
+                    <svg viewBox="0 0 44 44" width="34" height="34">
+                        <path d="M22 8c-1.4-2.8-3.7-4.6-6.4-5" stroke="#4C9A5A" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+                        <circle cx="22" cy="25" r="15" fill="#D6432B"/>
+                        <path d="M22 11.5c-4 0-6.6 1.8-8.2 3.4" stroke="#B8331E" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.45"/>
+                    </svg>
+                </div>
+
+                <h3>What is Tomato Guard AI?</h3>
+
+                <p>Tomato Guard AI is an artificial-intelligence based tomato leaf disease detection system designed to provide a quick preliminary assessment of tomato leaf images.</p>
+
+                <p>The system uses a <strong>MobileNetV2</strong> deep-learning model trained exclusively on tomato leaf images. When a user uploads a leaf image, the system analyzes the visual patterns and returns the most likely condition along with a model confidence score.</p>
+
+                <p>The system is designed as an <strong>assistive screening tool</strong> for tomato growers and harvesters. It can help identify leaves that may require closer inspection, while important crop-management decisions should be confirmed with qualified agricultural guidance.</p>
+            </div>
+
+            <div class="about-highlight">
+                <div class="highlight-number">10</div>
+                <div class="highlight-label">Tomato classes</div>
+
+                <div class="highlight-divider"></div>
+
+                <div class="highlight-item">
+                    <strong>9</strong>
+                    <span>Possible disease / pest conditions</span>
+                </div>
+
+                <div class="highlight-item">
+                    <strong>1</strong>
+                    <span>Healthy tomato class</span>
+                </div>
+
+                <div class="highlight-item">
+                    <strong>90.99%</strong>
+                    <span>Test accuracy</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================= KEY FEATURES ================= -->
+    <section class="features-section">
+
+        <div class="section-heading">
+            <span class="eyebrow">Key features</span>
+            <h2>Built around the needs of tomato growers</h2>
+            <p>Simple enough to use quickly, powerful enough to provide meaningful preliminary insights.</p>
+        </div>
+
+        <div class="features-grid">
+
+            <div class="feature-card">
+                <div class="feature-number">01</div>
+                <div class="feature-icon" aria-hidden="true">🍅</div>
+                <h3>Tomato-Specific Detection</h3>
+                <p>The model is trained specifically on tomato leaf images and recognizes 10 tomato classes.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-number">02</div>
+                <div class="feature-icon" aria-hidden="true">🧠</div>
+                <h3>AI-Powered Analysis</h3>
+                <p>MobileNetV2 analyzes the uploaded leaf image and identifies the class that most closely matches the learned patterns.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-number">03</div>
+                <div class="feature-icon" aria-hidden="true">📸</div>
+                <h3>Easy Image Upload</h3>
+                <p>Upload a JPG, JPEG, or PNG image using the simple browser interface with image preview before analysis.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-number">04</div>
+                <div class="feature-icon" aria-hidden="true">📊</div>
+                <h3>Confidence Score</h3>
+                <p>Each prediction is accompanied by a confidence percentage to help users understand how strongly the model favors the predicted class.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-number">05</div>
+                <div class="feature-icon" aria-hidden="true">🔎</div>
+                <h3>Top 3 Predictions</h3>
+                <p>The system also displays the three closest model predictions, providing additional context around the result.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-number">06</div>
+                <div class="feature-icon" aria-hidden="true">🌾</div>
+                <h3>Harvester Assistance</h3>
+                <p>Results are presented as preliminary indications to help tomato growers and harvesters identify leaves worth inspecting.</p>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================= HOW IT WORKS ================= -->
+    <section class="how-section">
+
+        <div class="section-heading">
+            <span class="eyebrow">How it works</span>
+            <h2>From leaf image to AI insight</h2>
+            <p>A simple five-step process.</p>
+        </div>
+
+        <div class="steps">
+
+            <div class="step">
+                <div class="step-number">01</div>
+                <h3>Upload</h3>
+                <p>Upload a clear image of a tomato leaf.</p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">02</div>
+                <h3>Process</h3>
+                <p>The image is resized and prepared for the AI model.</p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">03</div>
+                <h3>Analyze</h3>
+                <p>MobileNetV2 analyzes the visual characteristics of the leaf.</p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">04</div>
+                <h3>Predict</h3>
+                <p>The model selects the most likely tomato class.</p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">05</div>
+                <h3>Understand</h3>
+                <p>View the prediction, confidence, and closest matches.</p>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================= UPLOAD ================= -->
+    <section class="upload-section" id="diagnose">
+
+        <div class="section-heading">
+            <span class="eyebrow">Step 01</span>
+            <h2>Analyze a tomato leaf</h2>
+            <p>One clear, well-lit photo of a single leaf works best.</p>
+        </div>
+
+        <div class="upload-card">
+
+            <!-- DROP AREA -->
+            <div id="dropArea" class="drop-area">
+                <div class="upload-icon" aria-hidden="true">
+                    <svg width="46" height="46" viewBox="0 0 46 46" fill="none">
+                        <rect x="4" y="4" width="38" height="38" rx="10" stroke="#B8331E" stroke-width="2" stroke-dasharray="4 4"/>
+                        <path d="M23 30V16M23 16l-6 6M23 16l6 6" stroke="#D6432B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+                <h3>Drop a tomato leaf photo here</h3>
+                <p>or</p>
+
+                <label for="imageInput" class="browse-button">Browse files</label>
+                <input type="file" id="imageInput" accept=".jpg,.jpeg,.png" hidden>
+
+                <small>JPG, JPEG, or PNG — tomato leaves only</small>
+            </div>
+
+            <!-- IMAGE PREVIEW -->
+            <div id="previewContainer" class="preview-container hidden">
+                <div class="preview-label">Selected image</div>
+                <div class="preview-frame">
+                    <img id="previewImage" alt="Selected tomato leaf">
+                    <div class="preview-scan" aria-hidden="true"></div>
+                </div>
+                <button id="removeButton" class="remove-button" type="button">✕ Remove image</button>
+            </div>
+
+            <!-- ANALYZE BUTTON -->
+            <button id="analyzeButton" class="analyze-button hidden" type="button">
+                Analyze tomato leaf
+            </button>
+
+            <!-- LOADING -->
+            <div id="loading" class="loading hidden">
+                <div class="spinner" aria-hidden="true"></div>
+                <p>Scanning leaf tissue…</p>
+                <small>Running MobileNetV2 inference</small>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================= RESULT ================= -->
+    <section id="resultSection" class="result-section hidden">
+
+        <div class="section-heading">
+            <span class="eyebrow">Step 02</span>
+            <h2>Reading</h2>
+        </div>
+
+        <div class="result-card">
+
+            <div class="result-title">
+                <span>AI preliminary indication</span>
+                <h2 id="prediction">—</h2>
+            </div>
+
+            <!-- CONFIDENCE -->
+            <div class="confidence-box">
+                <div class="confidence-header">
+                    <span>Model confidence</span>
+                    <strong id="confidenceText">0%</strong>
+                </div>
+                <div class="progress">
+                    <div id="confidenceBar" class="progress-bar"></div>
+                </div>
+            </div>
+
+            <!-- STATUS -->
+            <div id="statusMessage" class="status-message"></div>
+
+            <!-- TOP PREDICTIONS -->
+            <div class="top-predictions">
+                <h3>Closest matches</h3>
+                <div id="topPredictions"></div>
+            </div>
+
+            <!-- HARVESTER MESSAGE -->
+            <div class="harvester-card">
+                <h3>🌾 For growers &amp; harvesters</h3>
+                <p>Treat this as a first pass, not a verdict. It's meant to help you flag leaves worth a closer look, not replace field judgment.</p>
+                <p>For decisions that affect the crop — spraying, removal, quarantine — confirm with an agricultural expert or trusted local guidance.</p>
+            </div>
+
+            <!-- WARNING -->
+            <div class="result-warning">
+                <strong>Tomato leaves only.</strong> This reading is not valid for potato, pepper, or any other plant — the model was never trained to recognize them.
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================= SUPPORTED CONDITIONS ================= -->
+    <section class="conditions-section">
+
+        <div class="section-heading">
+            <span class="eyebrow">Reference</span>
+            <h2>The 10 classes this model knows</h2>
+            <p>Every prediction above resolves to one of these.</p>
+        </div>
+
+        <div class="condition-grid">
+            <div class="condition-card"><span class="condition-index">00</span><span>Bacterial Spot</span></div>
+            <div class="condition-card"><span class="condition-index">01</span><span>Early Blight</span></div>
+            <div class="condition-card"><span class="condition-index">02</span><span>Late Blight</span></div>
+            <div class="condition-card"><span class="condition-index">03</span><span>Leaf Mold</span></div>
+            <div class="condition-card"><span class="condition-index">04</span><span>Septoria Leaf Spot</span></div>
+            <div class="condition-card"><span class="condition-index">05</span><span>Spider Mites</span></div>
+            <div class="condition-card"><span class="condition-index">06</span><span>Target Spot</span></div>
+            <div class="condition-card"><span class="condition-index">07</span><span>Yellow Leaf Curl Virus</span></div>
+            <div class="condition-card"><span class="condition-index">08</span><span>Mosaic Virus</span></div>
+            <div class="condition-card condition-card-healthy"><span class="condition-index">09</span><span>Healthy</span></div>
+        </div>
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+    <footer>
+        <div class="footer-logo">🍅 Tomato Guard AI</div>
+        <p>AI-assisted preliminary tomato leaf screening. Not a substitute for expert diagnosis.</p>
+        <p class="footer-small">MobileNetV2 · 10-class tomato leaf classifier · 2025</p>
+    </footer>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>

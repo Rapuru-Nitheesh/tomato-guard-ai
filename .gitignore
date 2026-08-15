@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# TensorFlow / Python generated files
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Dataset
+data/raw/
+data/processed/
+
+# Python temporary files
+*.tmp
+*.temp
+
+# Environment variables
+.env
+.env.*
+
+# Test / cache files
+.pytest_cache/
+
+# Generated model backups / temporary files
+*.ckpt
+*.h5.tmp
+
+# Node
+node_modules/
+
+# Build output
+dist/
+build/
