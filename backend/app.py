@@ -14,7 +14,14 @@ from pathlib import Path
 
 app = Flask(__name__)
 
-CORS(app)
+CORS(
+    app,
+    resources={
+        r"/*": {
+            "origins": "*"
+        }
+    }
+)
 
 
 # ============================================================
