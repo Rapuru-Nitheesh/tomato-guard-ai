@@ -11,7 +11,6 @@ from pathlib import Path
 # ============================================================
 # FLASK APPLICATION
 # ============================================================
-
 app = Flask(__name__)
 
 CORS(
@@ -20,7 +19,9 @@ CORS(
         r"/*": {
             "origins": "*"
         }
-    }
+    },
+    methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type"]
 )
 
 
